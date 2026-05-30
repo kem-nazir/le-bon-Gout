@@ -1,0 +1,157 @@
+---
+const services = [
+  {
+    icon: 'fa-solid fa-globe',
+    title: 'Site Vitrine',
+    desc: 'Un site professionnel pour présenter votre activité et attirer de nouveaux clients.',
+    features: ['Design sur mesure', 'Responsive mobile', 'SEO', 'Contact intégré'],
+  },
+  {
+    icon: 'fa-solid fa-cart-shopping',
+    title: 'E-commerce',
+    desc: 'Vendez en ligne avec une boutique clé en main, sécurisée et performante.',
+    features: ['Catalogue', 'Paiements', 'Gestion stocks', 'Dashboard'],
+  },
+  {
+    icon: 'fa-solid fa-arrows-rotate',
+    title: 'Refonte',
+    desc: 'Modernisez votre site existant pour booster votre présence en ligne.',
+    features: ['Audit', 'Nouveau design', 'Migration', 'Formation'],
+  },
+  {
+    icon: 'fa-solid fa-magnifying-glass-chart',
+    title: 'SEO & Performance',
+    desc: 'Optimisez votre visibilité sur Google et offrez une expérience rapide.',
+    features: ['Audit SEO', 'Core Web Vitals', 'Backlinks', 'Rapports'],
+  },
+];
+---
+
+<section class="services-section" id="services">
+  <div class="services-header">
+    <div>
+      <span class="section-label">Mes Services</span>
+      <h2 class="section-title">Des solutions <span class="text-gradient">sur mesure</span></h2>
+    </div>
+    <div class="services-nav">
+      <button class="scroll-btn" id="scrollLeft"><i class="fa-solid fa-arrow-left"></i></button>
+      <button class="scroll-btn" id="scrollRight"><i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+  </div>
+  <div class="services-track-wrap">
+    <div class="services-track" id="servicesTrack">
+      {services.map((s, i) => (
+        <div class="service-card reveal" style="transition-delay: {0.1 * i}s">
+          <div class="service-icon"><i class={s.icon}></i></div>
+          <h3>{s.title}</h3>
+          <p>{s.desc}</p>
+          <ul>
+            {s.features.map(f => (
+              <li><i class="fa-solid fa-check"></i>{f}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services-section {
+    padding: 100px 80px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .services-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .services-nav { display: flex; gap: 12px; }
+  .scroll-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .scroll-btn:hover { background: var(--brand); border-color: var(--brand); }
+
+  .services-track-wrap { overflow: hidden; }
+  .services-track {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    padding-bottom: 8px;
+  }
+  .services-track::-webkit-scrollbar { display: none; }
+
+  .service-card {
+    flex: 0 0 320px;
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 32px 28px;
+    transition: all 0.4s;
+    cursor: default;
+  }
+  .service-card:hover {
+    border-color: rgba(189, 56, 8, 0.3);
+    box-shadow: 0 20px 60px rgba(189, 56, 8, 0.08);
+    transform: translateY(-6px);
+  }
+  .service-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(189, 56, 8, 0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: var(--brand);
+    margin-bottom: 20px;
+  }
+  .service-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin-bottom: 10px;
+  }
+  .service-card p { color: var(--muted); font-size: 0.88rem; line-height: 1.7; margin-bottom: 18px; }
+  .service-card ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .service-card li {
+    font-size: 0.84rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .service-card li i { color: var(--brand); font-size: 0.75rem; }
+
+  @media (max-width: 768px) {
+    .services-section { padding: 60px 24px; }
+    .service-card { flex: 0 0 280px; }
+  }
+</style>
+
+<script>
+  const track = document.getElementById('servicesTrack');
+  document.getElementById('scrollLeft').addEventListener('click', () => {
+    track.scrollBy({ left: -340, behavior: 'smooth' });
+  });
+  document.getElementById('scrollRight').addEventListener('click', () => {
+    track.scrollBy({ left: 340, behavior: 'smooth' });
+  });
+</script>

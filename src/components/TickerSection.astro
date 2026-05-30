@@ -1,0 +1,54 @@
+---
+
+---
+
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    {['Sites Vitrines', 'E-commerce', 'SEO', 'IA & No-Code', 'Design Moderne', 'Performance', 'Refonte', 'Maintenance'].map(item => (
+      <span class="ticker-item">
+        <span class="dot"></span>
+        {item}
+      </span>
+    ))}
+    {['Sites Vitrines', 'E-commerce', 'SEO', 'IA & No-Code', 'Design Moderne', 'Performance', 'Refonte', 'Maintenance'].map(item => (
+      <span class="ticker-item">
+        <span class="dot"></span>
+        {item}
+      </span>
+    ))}
+  </div>
+</div>
+
+<style>
+  .ticker-wrap {
+    overflow: hidden;
+    padding: 18px 0;
+    background: var(--surface);
+    border-top: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .ticker-track {
+    display: flex;
+    width: max-content;
+    animation: ticker 30s linear infinite;
+  }
+  .ticker-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0 24px;
+    white-space: nowrap;
+  }
+  .dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--brand);
+    border-radius: 50%;
+  }
+</style>

@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+import HeroSection from '../components/HeroSection.astro';
+import TickerSection from '../components/TickerSection.astro';
+import ServicesSection from '../components/ServicesSection.astro';
+import ProjectsPreview from '../components/ProjectsPreview.astro';
+import TestimonialsSection from '../components/TestimonialsSection.astro';
+import BlogPreview from '../components/BlogPreview.astro';
+import CTASection from '../components/CTASection.astro';
+
+const posts = await getCollection('posts');
+const projects = await getCollection('projects');
+
+posts.sort((a, b) => {
+  const da = a.data.date ? new Date(a.data.date).getTime() : 0;
+  const db = b.data.date ? new Date(b.data.date).getTime() : 0;
+  return db - da;
+});
+---
+
+<Layout title="Rachad — Créateur de sites web pour commerces locaux">
+  <Header />
+  <main>
+    <HeroSection />
+    <TickerSection />
+    <ServicesSection />
+    <ProjectsPreview projects={projects} />
+    <TestimonialsSection />
+    <BlogPreview posts={posts} />
+    <CTASection />
+  </main>
+  <Footer />
+  <WhatsAppFloat />
+</Layout>

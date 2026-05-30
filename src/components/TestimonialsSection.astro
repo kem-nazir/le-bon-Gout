@@ -1,0 +1,103 @@
+---
+const testimonials = [
+  { text: "Un travail remarquable ! Le site est magnifique et rapide. Je recommande vivement.", name: "Sophie K.", role: "Gérante boutique" },
+  { text: "Rachad a su comprendre mes besoins et a livré un site qui dépasse mes attentes.", name: "Marc T.", role: "Artisan" },
+  { text: "Professionnel, à l'écoute et très réactif. Le résultat est impeccable.", name: "Aïchatou B.", role: "Restauratrice" },
+  { text: "Mon chiffre d'affaires a augmenté depuis la mise en ligne de mon nouveau site !", name: "Jean-Paul D.", role: "Commerçant" },
+];
+---
+
+<section class="testimonials">
+  <div class="testimonials-inner">
+    <div class="testimonials-text">
+      <span class="section-label">Témoignages</span>
+      <h2 class="section-title">Ce que mes <span class="text-gradient">clients</span> disent</h2>
+    </div>
+    <div class="testimonials-track" id="testimonialsTrack">
+      <div class="testimonials-row">
+        {testimonials.map(t => (
+          <div class="testi-card">
+            <div class="testi-stars">
+              {[...Array(5)].map(() => '<i class="fa-solid fa-star"></i>').join('')}
+            </div>
+            <p>« {t.text} »</p>
+            <div class="testi-author">
+              <div class="testi-avatar">{t.name.charAt(0)}</div>
+              <div>
+                <strong>{t.name}</strong>
+                <span>{t.role}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+        {testimonials.map(t => (
+          <div class="testi-card">
+            <div class="testi-stars">
+              {[...Array(5)].map(() => '<i class="fa-solid fa-star"></i>').join('')}
+            </div>
+            <p>« {t.text} »</p>
+            <div class="testi-author">
+              <div class="testi-avatar">{t.name.charAt(0)}</div>
+              <div>
+                <strong>{t.name}</strong>
+                <span>{t.role}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonials {
+    padding: 100px 80px;
+    background: var(--surface);
+    overflow: hidden;
+  }
+  .testimonials-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .testimonials-text { margin-bottom: 50px; }
+  .testimonials-track { overflow: hidden; }
+  .testimonials-row {
+    display: flex;
+    gap: 24px;
+    width: max-content;
+    animation: ticker 40s linear infinite;
+  }
+  .testi-card {
+    flex: 0 0 360px;
+    background: var(--bg);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .testi-stars { color: var(--brand); font-size: 0.8rem; display: flex; gap: 4px; }
+  .testi-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.7; flex: 1; font-style: italic; }
+  .testi-author { display: flex; align-items: center; gap: 14px; }
+  .testi-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--brand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .testi-author strong { display: block; font-size: 0.9rem; }
+  .testi-author span { font-size: 0.78rem; color: var(--muted); }
+
+  @media (max-width: 768px) {
+    .testimonials { padding: 60px 24px; }
+    .testi-card { flex: 0 0 300px; }
+  }
+</style>

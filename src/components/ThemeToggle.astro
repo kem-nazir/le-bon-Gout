@@ -1,0 +1,62 @@
+---
+// Client-side script for theme toggle
+const storedTheme = Astro.cookies.get('theme')?.value() || 'light';
+const theme = storedTheme === 'dark' ? 'dark' : 'light';
+---
+
+<button id="theme-toggle" class="theme-toggle" aria-label="Changer le thème">
+  <i id="theme-icon" class="fa-solid fa-moon"></i>
+</button>
+
+<style>
+  .theme-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: var(--white);
+    color: var(--dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 1.1rem;
+  }
+  .theme-toggle:hover {
+    background: var(--yellow) !important;
+    color: var(--dark) !important;
+    transform: rotate(15deg);
+  }
+  .dark .theme-toggle {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('theme-toggle');
+  const icon = document.getElementById('theme-icon');
+
+  function getTheme() {
+    return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+  }
+
+  function setTheme(theme) {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+      icon.className = 'fa-solid fa-sun';
+    } else {
+      document.documentElement.classList.remove('dark');
+      icon.className = 'fa-solid fa-moon';
+    }
+    document.cookie = `theme=${theme};path=/;max-age=31536000`;
+  }
+
+  // Set initial theme from cookie
+  const initialTheme = '{theme}';
+  setTheme(initialTheme);
+
+  toggle.addEventListener('click', () => {
+    setTheme(getTheme() === 'dark' ? 'light' : 'dark');
+  });
+</script>

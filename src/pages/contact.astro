@@ -1,0 +1,182 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppFloat from '../components/WhatsAppFloat.astro';
+---
+
+<Layout title="Contact — Rachad Développement Web">
+  <Header />
+  <main class="page-main">
+    <section class="contact-hero">
+      <span class="reveal section-label">Contact</span>
+      <h1 class="reveal contact-title" style="transition-delay: 0.1s">
+        Discutons de votre <span class="text-gradient">projet</span>
+      </h1>
+      <p class="reveal" style="transition-delay: 0.2s; color: var(--muted); max-width: 500px; margin: 0 auto;">
+        Réponse sous 24h. Premier échange sans engagement.
+      </p>
+    </section>
+
+    <section class="contact-form-section">
+      <div class="contact-grid">
+        <div class="contact-form reveal" style="transition-delay: 0.1s">
+          <form action="https://formsubmit.co/contact@rachad.dev" method="POST" class="form">
+            <input type="hidden" name="_subject" value="Nouveau message portfolio">
+            <input type="hidden" name="_captcha" value="true">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Nom</label>
+                <input type="text" id="name" name="Nom" placeholder="Jean Dupont" required />
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="Email" placeholder="jean@exemple.com" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="sujet">Sujet</label>
+              <select id="sujet" name="Sujet" required>
+                <option value="">Sélectionnez</option>
+                <option value="Site Vitrine">Site Vitrine</option>
+                <option value="E-commerce">E-commerce</option>
+                <option value="Refonte">Refonte</option>
+                <option value="Autre">Autre</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="Message" rows="5" placeholder="Parlez-moi de votre projet..." required></textarea>
+            </div>
+            <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
+              <i class="fa-regular fa-paper-plane"></i>
+              Envoyer
+            </button>
+          </form>
+        </div>
+
+        <div class="contact-info reveal" style="transition-delay: 0.2s">
+          <div class="info-card">
+            <i class="fa-regular fa-envelope"></i>
+            <div>
+              <strong>Email</strong>
+              <a href="mailto:contact@rachad.dev">contact@rachad.dev</a>
+            </div>
+          </div>
+          <div class="info-card">
+            <i class="fa-brands fa-whatsapp"></i>
+            <div>
+              <strong>Téléphone / WhatsApp</strong>
+              <a href="https://wa.me/22966153442">+229 66 15 34 42</a>
+            </div>
+          </div>
+          <div class="info-card">
+            <i class="fa-solid fa-location-dot"></i>
+            <div>
+              <strong>Localisation</strong>
+              <span>Cotonou, Bénin</span>
+            </div>
+          </div>
+          <div class="info-card">
+            <i class="fa-regular fa-clock"></i>
+            <div>
+              <strong>Disponibilité</strong>
+              <span>Lun - Ven : 9h - 18h</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <WhatsAppFloat />
+</Layout>
+
+<style>
+  .page-main { padding-top: 120px; }
+
+  .contact-hero {
+    text-align: center;
+    padding: 40px 24px 20px;
+  }
+  .contact-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    font-weight: 700;
+    margin: 16px 0;
+  }
+
+  .contact-form-section {
+    padding: 40px 80px 100px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .form { display: flex; flex-direction: column; gap: 20px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-group label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.3s;
+    resize: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--brand); }
+  .form-group select option { background: var(--bg); color: var(--text); }
+
+  .contact-info { display: flex; flex-direction: column; gap: 16px; }
+  .info-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 20px 24px;
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+  .info-card i {
+    width: 44px;
+    height: 44px;
+    background: rgba(189, 56, 8, 0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--brand);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .info-card strong { display: block; font-size: 0.85rem; margin-bottom: 4px; }
+  .info-card a, .info-card span { color: var(--muted); font-size: 0.88rem; text-decoration: none; }
+  .info-card a:hover { color: var(--brand); }
+
+  @media (max-width: 992px) {
+    .contact-form-section { padding: 40px 24px 60px; }
+    .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+  }
+  @media (max-width: 576px) {
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>

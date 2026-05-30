@@ -1,0 +1,210 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import WhatsAppFloat from '../../components/WhatsAppFloat.astro';
+
+const { slug } = Astro.params;
+if (!slug) throw new Error('Slug not found');
+const post = await getEntry('posts', slug);
+if (!post) throw new Error('Not found');
+
+const { Content } = await post.render();
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map(p => ({ params: { slug: p.slug } }));
+}
+
+const all = await getCollection('posts');
+const related = all.filter(p => p.slug !== slug && p.data.categorie === post.data.categorie).slice(0, 3);
+const postUrl = Astro.site ? new URL(`/blog/${slug}`, Astro.site).href : `/blog/${slug}`;
+---
+
+<Layout title={`${post.data.titre} — Rachad Blog`}>
+  <Header />
+  <main class="post-page">
+    <article class="post-article">
+      <div class="post-breadcrumb">
+        <a href="/">Accueil</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <a href="/blog">Blog</a>
+        <i class="fa-solid fa-chevron-right"></i>
+        <span>{post.data.titre}</span>
+      </div>
+
+      <div class="post-meta">
+        {post.data.categorie && <span class="post-cat">{post.data.categorie}</span>}
+        <span class="post-date"><i class="fa-regular fa-calendar"></i> {post.data.date || ''}</span>
+      </div>
+
+      <h1 class="post-title">{post.data.titre}</h1>
+
+      {post.data.couverture && (
+        <div class="post-cover">
+          <img src={post.data.couverture} alt={post.data.titre} loading="lazy" />
+        </div>
+      )}
+
+      <div class="post-body">
+        <Content />
+      </div>
+
+      <div class="post-share">
+        <span>Partager :</span>
+        <a href={`https://www.facebook.com/sharer/sharer.php?u=${postUrl}`} target="_blank" rel="noopener"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href={`https://twitter.com/intent/tweet?text=${post.data.titre}&url=${postUrl}`} target="_blank" rel="noopener"><i class="fa-brands fa-x-twitter"></i></a>
+        <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${postUrl}`} target="_blank" rel="noopener"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a href={`https://wa.me/?text=${encodeURIComponent(post.data.titre + ' ' + postUrl)}`} target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+    </article>
+
+    {related.length > 0 && (
+      <section class="post-related">
+        <h2 class="section-title" style="margin-bottom: 40px;">Articles <span class="text-gradient">similaires</span></h2>
+        <div class="blog-grid">
+          {related.map((rp, i) => (
+            <a href={`/blog/${rp.slug}`} class="blog-card reveal" style="transition-delay: {0.1 * i}s">
+              <div class="blog-img">
+                <img src={rp.data.couverture || '/images/placeholder.svg'} alt={rp.data.titre} loading="lazy" />
+                {rp.data.categorie && <span class="blog-cat">{rp.data.categorie}</span>}
+              </div>
+              <div class="blog-body">
+                <span class="blog-date"><i class="fa-regular fa-calendar"></i> {rp.data.date || ''}</span>
+                <h3>{rp.data.titre}</h3>
+                <span class="blog-link">Lire <i class="fa-solid fa-arrow-right"></i></span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <section class="post-cta">
+      <div class="cta-inner">
+        <h2>Vous aussi, vous voulez un site <span class="text-gradient">percutant</span> ?</h2>
+        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
+          <a href="https://wa.me/22966153442" class="cta-btn" target="_blank"><i class="fa-brands fa-whatsapp"></i> Contactez-moi</a>
+          <a href="/contact" class="cta-btn-outline"><i class="fa-regular fa-envelope"></i> Formulaire</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <WhatsAppFloat />
+</Layout>
+
+<style>
+  .post-page { padding-top: 120px; }
+
+  .post-article { max-width: 900px; margin: 0 auto; padding: 40px 24px; }
+
+  .post-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 30px;
+  }
+  .post-breadcrumb a { color: var(--muted); text-decoration: none; }
+  .post-breadcrumb a:hover { color: var(--brand); }
+  .post-breadcrumb i { font-size: 0.6rem; }
+
+  .post-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+  .post-cat {
+    background: var(--brand);
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .post-date { font-size: 0.85rem; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+
+  .post-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 30px;
+  }
+
+  .post-cover { margin-bottom: 40px; border-radius: 16px; overflow: hidden; }
+  .post-cover img { width: 100%; max-height: 500px; object-fit: cover; display: block; }
+
+  .post-body { font-size: 1rem; line-height: 1.8; color: var(--text); }
+  .post-body :global(h2) { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.5rem; margin: 40px 0 16px; }
+  .post-body :global(h3) { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.2rem; margin: 32px 0 12px; }
+  .post-body :global(p) { margin-bottom: 20px; color: var(--muted); }
+  .post-body :global(ul), .post-body :global(ol) { margin-bottom: 20px; padding-left: 24px; }
+  .post-body :global(li) { margin-bottom: 8px; color: var(--muted); }
+  .post-body :global(a) { color: var(--brand); text-decoration: underline; }
+  .post-body :global(img) { border-radius: 12px; margin: 24px 0; width: 100%; height: auto; }
+  .post-body :global(blockquote) {
+    border-left: 3px solid var(--brand);
+    padding: 16px 24px;
+    margin: 24px 0;
+    background: var(--surface);
+    border-radius: 0 12px 12px 0;
+    font-style: italic;
+    color: var(--muted);
+  }
+
+  .post-share { display: flex; align-items: center; gap: 12px; margin-top: 60px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.06); }
+  .post-share span { font-size: 0.85rem; color: var(--muted); }
+  .post-share a {
+    width: 38px; height: 38px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted); text-decoration: none; transition: all 0.3s;
+  }
+  .post-share a:hover { background: var(--brand); border-color: var(--brand); color: #fff; }
+
+  .post-related { padding: 80px 24px; background: var(--surface); }
+  .post-related .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1200px; margin: 0 auto; }
+  .blog-card {
+    display: block; text-decoration: none; color: inherit;
+    background: var(--bg); border-radius: 16px; overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.04); transition: all 0.4s;
+  }
+  .blog-card:hover { transform: translateY(-6px); border-color: rgba(189, 56, 8, 0.2); }
+  .blog-img { position: relative; height: 180px; overflow: hidden; background: #111; }
+  .blog-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+  .blog-card:hover .blog-img img { transform: scale(1.06); }
+  .blog-cat { position: absolute; top: 12px; left: 12px; background: var(--brand); color: #fff; padding: 3px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+  .blog-body { padding: 16px 20px; }
+  .blog-date { font-size: 0.78rem; color: var(--muted); margin-bottom: 8px; display: flex; gap: 6px; }
+  .blog-body h3 { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem; margin-bottom: 8px; }
+  .blog-link { font-size: 0.82rem; display: inline-flex; align-items: center; gap: 6px; transition: gap 0.3s; }
+  .blog-card:hover .blog-link { gap: 10px; color: var(--brand); }
+
+  .post-cta { padding: 80px 24px 100px; max-width: 1200px; margin: 0 auto; }
+  .cta-inner {
+    background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
+    border: 1px solid rgba(189, 56, 8, 0.15);
+    border-radius: 24px; padding: 60px; text-align: center;
+  }
+  .cta-inner h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 700; }
+  .cta-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--brand); color: #fff; font-weight: 700;
+    border-radius: 10px; padding: 14px 28px; text-decoration: none;
+    transition: all 0.3s;
+  }
+  .cta-btn:hover { box-shadow: 0 0 30px rgba(189, 56, 8, 0.4); transform: translateY(-2px); color: #fff; }
+  .cta-btn-outline {
+    display: inline-flex; align-items: center; gap: 10px;
+    border: 1.5px solid rgba(255,255,255,0.2); color: var(--text);
+    font-weight: 600; border-radius: 10px; padding: 14px 28px;
+    text-decoration: none; transition: all 0.3s;
+  }
+  .cta-btn-outline:hover { border-color: var(--brand); color: var(--brand); }
+
+  @media (max-width: 768px) {
+    .post-related .blog-grid { grid-template-columns: 1fr; }
+    .cta-inner { padding: 40px 24px; }
+  }
+</style>

@@ -1,0 +1,178 @@
+---
+
+---
+
+<header class="header">
+  <div class="header-inner">
+    <a href="/" class="logo">R<span class="logo-dot">.</span></a>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<nav class="menu-overlay" id="menuOverlay">
+  <div class="menu-bg"></div>
+  <div class="menu-content">
+    <div class="menu-links">
+      <a href="/" class="menu-link" data-delay="0">Accueil</a>
+      <a href="/projets" class="menu-link" data-delay="1">Projets</a>
+      <a href="/a-propos" class="menu-link" data-delay="2">À propos</a>
+      <a href="/blog" class="menu-link" data-delay="3">Blog</a>
+      <a href="/contact" class="menu-link" data-delay="4">Contact</a>
+    </div>
+    <div class="menu-social">
+      <a href="https://github.com" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+      <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+      <a href="https://twitter.com" target="_blank" rel="noopener" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+      <a href="https://wa.me/22966153442" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 20px 40px;
+    background: transparent;
+  }
+  .header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+  }
+  .logo-dot { color: var(--brand); }
+
+  .hamburger {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 8px 10px;
+    transition: border-color 0.3s;
+    z-index: 1001;
+  }
+  .hamburger:hover { border-color: var(--brand); }
+  .hamburger span {
+    display: block;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    transition: all 0.3s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+  }
+  .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+  .hamburger.active { border-color: var(--brand); }
+
+  .menu-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 999;
+    pointer-events: none;
+  }
+  .menu-overlay.open { pointer-events: all; }
+  .menu-bg {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 10, 10, 0.97);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .menu-overlay.open .menu-bg { opacity: 1; }
+  .menu-content {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    padding: 40px;
+  }
+  .menu-links { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .menu-link {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 700;
+    color: rgba(255,255,255,0.2);
+    text-decoration: none;
+    transition: all 0.4s;
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  .menu-overlay.open .menu-link {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .menu-link:hover { color: var(--brand); }
+  .menu-link:nth-child(1) { transition-delay: 0.05s; }
+  .menu-link:nth-child(2) { transition-delay: 0.1s; }
+  .menu-link:nth-child(3) { transition-delay: 0.15s; }
+  .menu-link:nth-child(4) { transition-delay: 0.2s; }
+  .menu-link:nth-child(5) { transition-delay: 0.25s; }
+
+  .menu-social { display: flex; gap: 24px; }
+  .menu-social a {
+    color: rgba(255,255,255,0.3);
+    font-size: 1.3rem;
+    transition: all 0.3s;
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  .menu-overlay.open .menu-social a {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .menu-social a:nth-child(1) { transition-delay: 0.3s; }
+  .menu-social a:nth-child(2) { transition-delay: 0.35s; }
+  .menu-social a:nth-child(3) { transition-delay: 0.4s; }
+  .menu-social a:nth-child(4) { transition-delay: 0.45s; }
+  .menu-social a:hover { color: var(--brand); transform: translateY(-4px); }
+
+  @media (max-width: 768px) {
+    .header { padding: 16px 20px; }
+    .menu-content { gap: 40px; }
+  }
+</style>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const overlay = document.getElementById('menuOverlay');
+
+  hamburger.addEventListener('click', () => {
+    const isOpen = overlay.classList.contains('open');
+    hamburger.classList.toggle('active');
+    overlay.classList.toggle('open');
+    document.body.style.overflow = isOpen ? '' : 'hidden';
+  });
+
+  document.querySelectorAll('.menu-link').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('active');
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+</script>

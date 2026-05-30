@@ -1,0 +1,121 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import WhatsAppFloat from '../../components/WhatsAppFloat.astro';
+
+const posts = await getCollection('posts');
+posts.sort((a, b) => {
+  const da = a.data.date ? new Date(a.data.date).getTime() : 0;
+  const db = b.data.date ? new Date(b.data.date).getTime() : 0;
+  return db - da;
+});
+---
+
+<Layout title="Blog — Rachad Développement Web">
+  <Header />
+  <main class="page-main">
+    <section class="blog-hero">
+      <span class="reveal section-label">Blog</span>
+      <h1 class="reveal blog-hero-title" style="transition-delay: 0.1s">
+        Le <span class="text-gradient">blog</span>
+      </h1>
+      <p class="reveal" style="transition-delay: 0.2s; color: var(--muted);">
+        Astuces, guides et tendances pour votre présence en ligne.
+      </p>
+    </section>
+
+    <section class="blog-list">
+      {posts.length > 0 ? (
+        <div class="blog-grid">
+          {posts.map((post, i) => (
+            <a href={`/blog/${post.slug}`} class="blog-card reveal" style="transition-delay: {0.05 * i}s">
+              <div class="blog-img">
+                <img src={post.data.couverture || '/images/placeholder.svg'} alt={post.data.titre} loading="lazy" />
+                {post.data.categorie && <span class="blog-cat">{post.data.categorie}</span>}
+              </div>
+              <div class="blog-body">
+                <span class="blog-date"><i class="fa-regular fa-calendar"></i> {post.data.date || ''}</span>
+                <h3>{post.data.titre}</h3>
+                {post.data.extrait && <p>{post.data.extrait}</p>}
+                <span class="blog-link">Lire <i class="fa-solid fa-arrow-right"></i></span>
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="empty-state">
+          <p>Pas encore d'articles. <a href="/keystatic" style="color: var(--brand);">Écrivez-en un</a></p>
+        </div>
+      )}
+    </section>
+  </main>
+  <Footer />
+  <WhatsAppFloat />
+</Layout>
+
+<style>
+  .page-main { padding-top: 120px; }
+
+  .blog-hero {
+    text-align: center;
+    padding: 40px 24px 20px;
+  }
+  .blog-hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 4vw, 3.4rem);
+    font-weight: 700;
+    margin: 16px 0;
+  }
+
+  .blog-list {
+    padding: 40px 80px 100px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .blog-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: var(--surface);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.04);
+    transition: all 0.4s;
+  }
+  .blog-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(189, 56, 8, 0.2);
+    box-shadow: 0 20px 60px rgba(189, 56, 8, 0.08);
+  }
+  .blog-img { position: relative; height: 200px; overflow: hidden; background: #111; }
+  .blog-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+  .blog-card:hover .blog-img img { transform: scale(1.06); }
+  .blog-cat {
+    position: absolute; top: 14px; left: 14px;
+    background: var(--brand); color: #fff;
+    padding: 4px 12px; border-radius: 6px;
+    font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+  }
+  .blog-body { padding: 20px 22px; }
+  .blog-date { font-size: 0.8rem; color: var(--muted); display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+  .blog-body h3 { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.05rem; margin-bottom: 8px; }
+  .blog-body p { color: var(--muted); font-size: 0.85rem; line-height: 1.6; margin-bottom: 14px; }
+  .blog-link { font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; transition: gap 0.3s; }
+  .blog-card:hover .blog-link { gap: 10px; color: var(--brand); }
+  .empty-state { grid-column: 1/-1; text-align: center; padding: 80px; color: var(--muted); }
+
+  @media (max-width: 992px) {
+    .blog-list { padding: 40px 24px 60px; }
+    .blog-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 576px) {
+    .blog-grid { grid-template-columns: 1fr; }
+  }
+</style>

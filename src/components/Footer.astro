@@ -1,0 +1,101 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>R<span class="dot">.</span></h3>
+      <p>Création de sites web pour commerces locaux. Design sur mesure, performance optimale.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Pages</h4>
+      <a href="/">Accueil</a>
+      <a href="/projets">Projets</a>
+      <a href="/a-propos">À propos</a>
+      <a href="/blog">Blog</a>
+      <a href="/contact">Contact</a>
+    </div>
+    <div class="footer-links">
+      <h4>Services</h4>
+      <a href="/projets">Site Vitrine</a>
+      <a href="/projets">E-commerce</a>
+      <a href="/projets">Refonte</a>
+      <a href="/projets">SEO</a>
+    </div>
+    <div class="footer-contact">
+      <h4>Contact</h4>
+      <span><i class="fa-regular fa-envelope"></i> contact@rachad.dev</span>
+      <span><i class="fa-solid fa-phone"></i> +229 66 15 34 42</span>
+      <span><i class="fa-solid fa-location-dot"></i> Cotonou, Bénin</span>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; {year} Rachad. Conçu avec <span class="heart">&#9829;</span></p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding: 80px 40px 30px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+  }
+  .footer-brand h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .dot { color: var(--brand); }
+  .footer-brand p { color: var(--muted); font-size: 0.9rem; line-height: 1.7; max-width: 300px; }
+  .footer-links { display: flex; flex-direction: column; gap: 12px; }
+  .footer-links h4, .footer-contact h4 {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .footer-links a {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--brand); }
+  .footer-contact { display: flex; flex-direction: column; gap: 12px; }
+  .footer-contact span {
+    color: var(--muted);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .footer-contact i { color: var(--brand); width: 16px; }
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 60px auto 0;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  .heart { color: var(--brand); }
+
+  @media (max-width: 768px) {
+    .footer { padding: 60px 20px 24px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
+    .footer-brand { grid-column: 1 / -1; }
+    .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
